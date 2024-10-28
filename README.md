@@ -39,3 +39,85 @@ CREATE TABLE amazon_prime
 
 select * from amazon_prime;
 ```
+## Problemas y soluciones empresariales
+
+### 1. Cuente la cantidad de películas vs series
+
+```sql
+SELECT 
+    type,
+    COUNT(*)
+FROM amazon_prime
+GROUP BY 1;
+```
+
+**Objective:** Determinar la distribución de tipos de contenido en Amazon Prime.
+
+### 2. Encuentre la clasificación más común para películas y programas de televisión
+
+```sql
+WITH RatingCounts AS (
+    SELECT 
+        type,
+        rating,
+        COUNT(*) AS rating_count
+    FROM amazon_prime
+    GROUP BY type, rating
+),
+RankedRatings AS (
+    SELECT 
+        type,
+        rating,
+        rating_count,
+        RANK() OVER (PARTITION BY type ORDER BY rating_count DESC) AS rank
+    FROM RatingCounts
+)
+SELECT 
+    type,
+    rating AS most_frequent_rating
+FROM RankedRatings
+WHERE rank = 1;	
+```
+
+**Objetivo:** Identificar la calificación que ocurre con más frecuencia para cada tipo de contenido.
+
+### 3. Enumere todas las películas estrenadas en un año específico (por ejemplo, 2020)
+
+```sql
+SELECT * 
+FROM amazon_prime
+WHERE release_year = 2020;
+```
+
+**Objetivo:** Recuperar todas las películas estrenadas en un año específico.
+
+### 4. Encuentre los 5 países principales con más contenido en Amazon Prime
+
+```sql
+SELECT * 
+FROM
+(
+    SELECT 
+        UNNEST(STRING_TO_ARRAY(country, ',')) AS country,
+        COUNT(*) AS total_content
+    FROM amazon_prime
+    GROUP BY 1
+) AS t1
+WHERE country IS NOT NULL
+ORDER BY total_content DESC
+LIMIT 5;
+```
+
+**Objetivo:** Identificar los 5 países principales con la mayor cantidad de elementos de contenido.
+
+### 5. Identify the Longest Movie
+
+```sql
+SELECT 
+    *
+FROM amazon_prime
+WHERE type = 'Movie'
+ORDER BY SPLIT_PART(duration, ' ', 1)::INT DESC;
+```
+
+**Objetivo:** Encuentra la película de mayor duración.
