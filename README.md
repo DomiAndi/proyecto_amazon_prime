@@ -172,4 +172,4 @@ LIMIT 10;
 
 - **Calificaciones comunes:** La información sobre las calificaciones más comunes proporciona una comprensión del público objetivo del contenido.
 
-Este análisis proporciona una visión integral del contenido de Netflix y puede ayudar a informar la estrategia de contenido y la toma de decisiones.
+Este análisis proporciona una visión integral del contenido de Amazon Prime y puede ayudar a informar la estrategia de contenido y la toma de decisiones.
