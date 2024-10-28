@@ -110,7 +110,7 @@ LIMIT 5;
 
 **Objetivo:** Identificar los 5 países principales con la mayor cantidad de elementos de contenido.
 
-### 5. Identify the Longest Movie
+### 5. Identificar la película más larga
 
 ```sql
 SELECT 
@@ -121,3 +121,55 @@ ORDER BY SPLIT_PART(duration, ' ', 1)::INT DESC;
 ```
 
 **Objetivo:** Encuentra la película de mayor duración.
+
+### 6. Enumere todos los programas de televisión con más de 5 temporadas
+
+```sql
+SELECT *
+FROM amazon_prime
+WHERE type = 'TV Show'
+  AND SPLIT_PART(duration, ' ', 1)::INT > 5;
+```
+**Objetivo:** Identificar programas de TV con más de 5 temporadas.
+
+### 7. Cuente la cantidad de elementos de contenido en cada género
+
+```sql
+SELECT 
+    UNNEST(STRING_TO_ARRAY(listed_in, ',')) AS genre,
+    COUNT(*) AS total_content
+FROM amazon_prime
+GROUP BY 1;
+```
+
+### 8. Enumere todas las películas que son animaciones
+
+```sql
+SELECT * 
+FROM amazon_prime
+WHERE listed_in LIKE '%Animation';
+```
+**Objetivo:** Recuperar todas las películas clasificadas como animaciones.
+
+### 9. Encuentre los 10 actores principales que han aparecido en la mayor cantidad de películas producidas en Estados Unidos
+
+```sql
+SELECT 
+    UNNEST(STRING_TO_ARRAY(casts, ',')) AS actor,
+    COUNT(*)
+FROM amazon_prime
+WHERE country = 'United States'
+GROUP BY actor
+ORDER BY COUNT(*) DESC
+LIMIT 10;
+```
+
+**Objetivo:** Identificar los 10 actores principales con más apariciones en películas producidas en Estados Unidos.
+
+## Hallazgos y conclusiones
+
+- **Distribución de contenido:** El conjunto de datos contiene una amplia gama de películas y programas de televisión con diferentes clasificaciones y géneros.
+
+- **Calificaciones comunes:** La información sobre las calificaciones más comunes proporciona una comprensión del público objetivo del contenido.
+
+Este análisis proporciona una visión integral del contenido de Netflix y puede ayudar a informar la estrategia de contenido y la toma de decisiones.
