@@ -16,3 +16,26 @@ El siguiente archivo README proporciona una descripción detallada de los objeti
 Los datos para este proyecto provienen del conjunto de datos de Kaggle:
 
 - **Enlace del conjunto de datos:** [Conjunto de datos de películas](https://www.kaggle.com/datasets/shivamb/amazon-prime-movies-and-tv-shows)
+
+## Schema
+
+```sql
+CREATE TABLE amazon_prime
+(
+    show_id      VARCHAR(5),
+    type         VARCHAR(10),
+    title        VARCHAR(250),
+    director     VARCHAR(10000),
+    casts        VARCHAR(10000),
+    country      VARCHAR(550),
+    date_added   VARCHAR(55),
+    release_year INT,
+    rating       VARCHAR(15),
+    duration     VARCHAR(15),
+    listed_in    VARCHAR(250),
+    year_added	VARCHAR(10),
+	month_added  VARCHAR(10)
+);
+
+select * from amazon_prime;
+```
